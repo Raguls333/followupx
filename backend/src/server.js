@@ -35,7 +35,7 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// CORS configuration (supports comma-separated origins; falls back to mirror origin)
+// CORS configuration (comma‑separated allowlist; mirrors all if empty to avoid deploy misconfig)
 const rawOrigins = process.env.FRONTEND_URL || 'http://localhost:5173,https://followupx.vercel.app';
 const allowedOrigins = rawOrigins
   .split(',')
@@ -43,10 +43,16 @@ const allowedOrigins = rawOrigins
   .filter(Boolean);
 
 app.use(cors({
-  origin: allowedOrigins.length > 0 ? allowedOrigins : true,
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // non-browser or same-origin
+    if (allowedOrigins.length === 0) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200
 }));
 
 // Request logging
