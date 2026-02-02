@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { AlertTriangle, TrendingDown, Zap, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import { API_BASE_URL } from '../../services/api';
 
 interface AILead {
   _id: string;
@@ -35,7 +36,7 @@ export const AIRecoveryPage = ({ onWhatsAppClick }: AIRecoveryPageProps) => {
     const fetchRecoveryLeads = async () => {
       try {
         setLoading(true);
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+        const apiUrl = API_BASE_URL;
         const token = localStorage.getItem('followupx_token');
 
         if (!token) {

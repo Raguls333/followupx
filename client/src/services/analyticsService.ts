@@ -2,7 +2,7 @@
  * Analytics Service
  */
 
-import api from './api';
+import api, { API_BASE_URL } from './api';
 
 export interface OverviewData {
   totalLeads: number;
@@ -148,7 +148,7 @@ export const analyticsService = {
    */
   exportData: async (dataType: 'leads' | 'tasks' | 'activities', format: 'csv' | 'json' = 'csv'): Promise<void> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/analytics/export?dataType=${dataType}&format=${format}`,
+      `${API_BASE_URL}/analytics/export?dataType=${dataType}&format=${format}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('followupx_token')}`,

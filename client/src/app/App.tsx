@@ -82,6 +82,7 @@ import {
   analyticsService,
   getAuthToken
 } from '../services';
+import { API_BASE_URL } from '../services/api';
 import type { User, Lead as ApiLead } from '../services';
 import type { Task as ApiTask } from '../services/taskService';
 import { TeamPage } from '../components/TeamPage';
@@ -3041,7 +3042,7 @@ const SettingsPage = ({ user, onUserUpdate }: { user: any, onUserUpdate?: (user:
         throw new Error('Authentication token not found. Please log in again.');
       }
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const apiUrl = API_BASE_URL;
       const response = await fetch(`${apiUrl}/uploads/image`, {
         method: 'POST',
         headers: {
@@ -3696,7 +3697,7 @@ export default function App() {
         return;
       }
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const apiUrl = API_BASE_URL;
       const response = await fetch(`${apiUrl}/whatsapp/generate-link`, {
         method: 'POST',
         headers: {

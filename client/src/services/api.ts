@@ -2,7 +2,9 @@
  * API Service - Base HTTP client for FollowUpX backend
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? 'https://followupx.onrender.com/api' : 'http://localhost:5000/api');
 
 // Token management
 let authToken: string | null = null;
